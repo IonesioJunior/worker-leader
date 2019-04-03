@@ -6,6 +6,7 @@
 #include <functional>
 #include <iostream>
 #include <rdkafka.h>
+#include <sstream>
 
 namespace workers
 {

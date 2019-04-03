@@ -45,17 +45,15 @@ std::vector< std::vector<double> > mat_to_std_vec(arma::mat *A) {
 
 void workers::Worker::publish_data( arma::mat *rec_matrix )
 {
-    std::vector< std::vector< double> > vec_mat = mat_to_std_vec(rec_matrix);
-    for(size_t i = 0; i < vec_mat.size();i++)
-    {
-        std::cout << vec_mat[i][0] << vec_mat[i][1] << std::endl;
-    }
+    std::ostringstream str_stream;
+    rec_matrix->raw_print(str_stream, "");
+    char* c_str_mat = (char*) str_stream.str().c_str();
     while ( rd_kafka_produce(
 				    		 this->kafkaTopic,
 					    	 this->kafkaPartition,
 						     RD_KAFKA_MSG_F_COPY,
-							 rec_matrix,
-						     rec_matrix->size(),
+							 c_str_mat,
+						     strlen(c_str_mat),
 							 NULL,
 							 0,
 			    			 NULL) != 0 );    

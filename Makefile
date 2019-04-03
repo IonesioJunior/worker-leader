@@ -13,8 +13,8 @@ bin_folder:
 %.o : %.cpp %.hpp
 	g++ -Wall -g -c $< -o $@ $(INCLUDE_PATH)
 
-worker-manager: ./workers/worker.o
-	g++ $^ main.cpp -o $@ -I $(INCLUDE_PATH) $(LIBS)
+worker-manager: ./workers/worker.o ./dataset_handling/dataset_handler.o
+	g++ $^ main.cpp -o $@ -I $(INCLUDE_PATH) $(LIBS)  -larmadillo -std=c++17
 
 clean:
 	rm ./workers/*.o

@@ -1,17 +1,17 @@
 #include <cstdlib>
 #include <iostream>
 #include "workers/worker.hpp"
+#include "dataset_handling/dataset_handler.hpp"
+
+using namespace arma;
 
 
 int main(int argc,char** argv)
 {
+   mat tst(6,7);
+   tst.fill(5);
+   std::vector<mat> shared_matrix = dataset_handler::split_matrix(&tst,5);
 
-    arma::mat A(2,3);
-    A.fill(5.0);
-    workers::Worker *worker1 = new workers::Worker("worker1","localhost:9092");   
-    while(1)
-    {
-        worker1->publish_data( &A );
-    }
-    return 0;
+   mat result = dataset_handler::merge_shared_matrices( shared_matrix );
+   return 0;
 }
